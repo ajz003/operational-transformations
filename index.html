@@ -1,0 +1,127 @@
+<html><head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>OT Catchup (Replit)</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+	<link href="style.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.css" media="(prefers-color-scheme: light)" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism-tomorrow.min.css" media="(prefers-color-scheme: dark)" rel="stylesheet">
+</head>
+<body class="language-js">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+	<h2 id="catching-up">Catching up</h2>
+	<p>When people code together on Replit, everyone's code needs to be in sync. You have to see the same code as I do even though we're typing on different computers. The challenge is making sure we don't end up with a jumbled mess of text while we type together.</p>
+
+	<p>So in order to keep everyone's code in sync, Replit uses a method called <strong>Operational Transformations, or OT</strong>.</p>
+
+	<p>Think about OT like this: when you type, you can either <i>insert</i> text, <i>delete</i> text, or <i>move</i> your cursor to a new position (this is called <i>skip</i> in OT land). These actions are called <strong>operations</strong>, and they <strong>transform</strong> your document! 
+
+	</p><p>More concretely, you can look at an Operational Transformation as a function that takes in a document, a position within that document (like where your cursor is), and then either modifies the document at that position or skips to a new position.</p>
+
+
+	<strong>Some examples:</strong>
+	<p></p>
+	<ol>
+		<!-- Example 1 -->
+		<li class="example">
+			<ul>
+				<li>Input document: <code class=" language-js"><span class="token string">""</span></code></li>
+				<li>Starting cursor position: <code class=" language-js"><span class="token number">0</span></code></li>
+				<li>Operation: <code class=" language-js"><span class="token punctuation">{</span><span class="token string">"op"</span><span class="token operator">:</span> <span class="token string">"insert"</span><span class="token punctuation">,</span> <span class="token string">"chars"</span><span class="token operator">:</span> <span class="token string">"Hello, human!"</span><span class="token punctuation">}</span></code></li>
+				<li>Output document: <code class=" language-js"><span class="token string">"Hello, human!"</span></code></li>
+				<li>Ending cursor position: <code class=" language-js"><span class="token number">13</span></code></li>
+			</ul>
+		</li>
+		<!-- Example 2 -->
+		<li class="example">
+			<ul>
+				<li>Input document: <code class=" language-js"><span class="token string">"What is up?"</span></code></li>
+				<li>Starting cursor position: <code class=" language-js"><span class="token number">7</span></code></li>
+				<li>Operation: <code class=" language-js"><span class="token punctuation">{</span><span class="token string">"op"</span><span class="token operator">:</span> <span class="token string">"delete"</span><span class="token punctuation">,</span> <span class="token string">"count"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">}</span></code></li>
+				<li>Output document: <code class=" language-js"><span class="token string">"What is?"</span></code></li>
+				<li>Ending cursor position: <code class=" language-js"><span class="token number">7</span></code></li>
+			</ul>
+		</li>
+		
+	<i class="note">Watch out: <code class=" language-js"><span class="token keyword">delete</span></code> operations are applied forward while keeping the cursor in place. Crazy, we know.</i>
+
+	<!-- Example 3 -->
+	<li class="example">
+			<ul>
+				<li>Input document: <code class=" language-js"><span class="token string">"Nice!"</span></code></li>
+				<li>Starting cursor position: <code class=" language-js"><span class="token number">0</span></code></li>
+				<li>Operation (1): <code class=" language-js"><span class="token punctuation">{</span><span class="token string">"op"</span><span class="token operator">:</span> <span class="token string">"skip"</span><span class="token punctuation">,</span> <span class="token string">"count"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">}</span></code></li>
+				<li>Operation (2): <code class=" language-js"><span class="token punctuation">{</span><span class="token string">"op"</span><span class="token operator">:</span> <span class="token string">"insert"</span><span class="token punctuation">,</span> <span class="token string">"chars"</span><span class="token operator">:</span> <span class="token string">" day"</span><span class="token punctuation">}</span></code></li>
+				<li>Output document: <code class=" language-js"><span class="token string">"Nice day!"</span></code></li>
+				<li>Ending cursor position: <code class=" language-js"><span class="token number">8</span></code></li>
+			</ul>
+	</li>
+	
+	<i class="note">As you can see, this last example applies two transformations in a row.</i>
+</ol>
+
+<h2>What we want you to do</h2>
+<p>Back to keeping everyone in a multiplayer repl in sync. In the real world, we don't always work at the same time. Sometimes people leave then rejoin later, or lose their internet connection and come back online. When people rejoin, we need their client to <strong>"catch up"</strong> to the current state of the repl so everyone has the same code in front of them!
+
+</p><p>So when we catch up, we need to validate that a sequence of operational transformations will actually produce the most recent version of your code. It would be pretty terrible if I edited your file while you're gone, then you somehow end up with the wrong file contents when you rejoin later 😢</p>
+	
+<p><strong>For this challenge, you're going to write the OT validation function.</strong> The function will take in a string for the stale file contents, a string containing the latest file contents, and a JSON string containing the operations. Your function should validate that the sequence of operations, when applied to the stale contents, produces the latest contents. If it does not, or if the sequence of operations is invalid, your function should return false.</p>
+
+<h3>Submitting</h3>
+<p>Please <a href="https://replit.com/signup">sign up</a> for a Replit account if you have not already. <strong>Create a new repl for this problem and do all your coding in that repl.</strong></p>
+  
+<p>We ask that you only spend around 30 minutes on this, and suggest setting a timer. When you're ready to share your repl with us, please click the Invite button, generate a join link, and then copy it and send it to us!</p>
+
+<p>We value straightforward, working code over clever, not-quite-working code, so try to get something working right away, even if it doesn’t cover all the possible cases. Good luck! We can’t wait to hear from you.</p>
+
+<h4>Gotchas:</h4>
+<ul>
+	<li>You can't skip past the end of a string</li>
+	<li>You can't delete past the end of a string</li>
+	<li>Delete operations are applied forward while keeping the cursor in place</li>
+</ul>
+
+<p>You may use any language! Please choose a language you are comfortable coding in quickly. Here are some examples in JavaScript:</p>
+
+<pre class=" language-js"><code class=" language-js"><span class="token keyword">function</span> <span class="token function">isValid</span><span class="token punctuation">(</span><span class="token parameter">stale<span class="token punctuation">,</span> latest<span class="token punctuation">,</span> otjson</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// this is the part you will write!</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">isValid</span><span class="token punctuation">(</span>
+  <span class="token string">'Repl.it uses operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'Repl.it uses operational transformations.'</span><span class="token punctuation">,</span>
+  <span class="token string">'[{"op": "skip", "count": 40}, {"op": "delete", "count": 47}]'</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+
+<span class="token function">isValid</span><span class="token punctuation">(</span>
+  <span class="token string">'Repl.it uses operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'Repl.it uses operational transformations.'</span><span class="token punctuation">,</span>
+  <span class="token string">'[{"op": "skip", "count": 45}, {"op": "delete", "count": 47}]'</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false, delete past end</span>
+
+<span class="token function">isValid</span><span class="token punctuation">(</span>
+  <span class="token string">'Repl.it uses operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'Repl.it uses operational transformations.'</span><span class="token punctuation">,</span>
+  <span class="token string">'[{"op": "skip", "count": 40}, {"op": "delete", "count": 47}, {"op": "skip", "count": 2}]'</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false, skip past end</span>
+
+<span class="token function">isValid</span><span class="token punctuation">(</span>
+  <span class="token string">'Repl.it uses operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'We use operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'[{"op": "delete", "count": 7}, {"op": "insert", "chars": "We"}, {"op": "skip", "count": 4}, {"op": "delete", "count": 1}]'</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+  
+<span class="token function">isValid</span><span class="token punctuation">(</span>
+  <span class="token string">'Repl.it uses operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'We can use operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'[{"op": "delete", "count": 7}, {"op": "insert", "chars": "We"}, {"op": "skip", "count": 4}, {"op": "delete", "count": 1}]'</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+
+<span class="token function">isValid</span><span class="token punctuation">(</span>
+  <span class="token string">'Repl.it uses operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'Repl.it uses operational transformations to keep everyone in a multiplayer repl in sync.'</span><span class="token punctuation">,</span>
+  <span class="token string">'[]'</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span></code></pre>
+
+
+</body></html>
